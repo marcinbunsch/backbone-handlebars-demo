@@ -54,7 +54,7 @@ $(function(){
 
   // The collection of todos is backed by *localStorage* instead of a remote
   // server.
-  var TodoList = Backbone.Collection.extend({
+  var TodoCollection = Backbone.Collection.extend({
 
     // Reference to this collection's model.
     model: Todo,
@@ -87,7 +87,7 @@ $(function(){
   });
 
   // Create our global collection of **Todos**.
-  var Todos = new TodoList;
+  var Todos = new TodoCollection;
 
   // Todo Item View
   // --------------
@@ -161,7 +161,7 @@ $(function(){
   // ---------------
 
   // Our overall **AppView** is the top-level piece of UI.
-  var AppView = Backbone.View.extend({
+  var TodosView = Backbone.View.extend({
 
     // Instead of generating a new element, bind to the existing skeleton of
     // the App already present in the HTML.
@@ -251,7 +251,17 @@ $(function(){
 
   });
 
-  // Finally, we kick things off by creating the **App**.
-  var App = new AppView;
+  var AppRouter = Backbone.Router.extend({
+    routes: {
+      '': 'showTodos'
+    },
+    showTodos: function() {
+      var App = new TodosView();
+    }
+  })
+
+  // Boot!
+  new AppRouter();
+  Backbone.history.start();
 
 });
